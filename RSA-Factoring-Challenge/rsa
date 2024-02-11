@@ -1,48 +1,79 @@
-#!/usr/bin/env bash
+#!/usr/bin/python3
 
-check_factor()
-{
-	if [ $# -ne 3 ];
-        then
-                args=("$@")
-                count=0
-                num2=1
-                for a in ${args[*]};
-                do
-                        if [ $count -gt 1 ];
-                        then
-                                num2=$(echo $a*$num2 | bc)
-                        fi
-                        count=$((count + 1))
-                done
-        else
-                num2=$3
-        fi
+import time
+import math
+import sys
 
-        num1=$2
-        num=$(echo "$1" | tr ':' '=')
+def is_prime(num, k=5):
+    if num <= 1:
+        return False
+    if num <= 3:
+        return True
+    if num % 2 == 0:
+        return False
 
-        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
-	        if ((result == 1)); then
-		        numcp=$num1
-		        num1=$num2
-		        num2=$numcp
-                fi
+    d = num - 1
+    r = 0
+    while d % 2 == 0:
+        d //= 2
+        r += 1
 
-        echo "$num$num1*$num2"
-}
+    for _ in range(k):
+        a = random.randint(2, num - 1)
+        x = pow(a, d, num)
+        if x == 1 or x == num - 1:
+            continue
+        for _ in range(r - 1):
+            x = pow(x, 2, num)
+            if x == num - 1:
+                break
 
-if [ $# -ne 1 ]
-then
-        echo 'Usage: rsa <file>'
-        exit 1
-else
+        else:
+            return False
+    return True
 
-        while read i
-        do
+#pollard
 
-                result=$(factor "$i")
-                check_factor $result
+def pollards_rho(n):
+    def f(x):
+        return (x**2 + 1) % n
 
-        done < "$1"
-fi
+
+    x = random.randint(1, n - 1)
+    y = x
+    d = 1
+
+    while d == 1:
+        x = f(x)
+        y = f(f(y))
+        d = gcd(abs(x - y), n)
+
+    return d
+
+    def gcd(a, b):
+        while b:
+            a, b = b, a % b
+        return a
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: rsa <file>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+
+    with open(input_file, 'r') as infile:
+        num = int(infile.read().strip())
+        
+    p = pollards_rho(num)
+    q = num // p
+
+    if not is_prime(p) or not is_prime(q):
+        print("Error: Factors are not prime.")
+        sys.exit(1)
+
+    print(f"p = {p}")
+    print(f"q = {q}")
+
+if __name__ == "__main__":
+    main()
