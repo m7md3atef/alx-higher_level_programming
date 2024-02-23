@@ -13,4 +13,3 @@ def lazy_matrix_mul(m_a, m_b):
     """
     # m_a or m_b is not a list
     return matmul(m_a, m_b)
-	

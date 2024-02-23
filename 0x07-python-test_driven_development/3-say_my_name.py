@@ -15,4 +15,3 @@ def say_my_name(first_name="", last_name=""):
     if (first_name == "") and (last_name == ""):
         raise ValueError("missing two arguments")
     print("My name is {:s} {:s}".format(first_name, last_name))
-	

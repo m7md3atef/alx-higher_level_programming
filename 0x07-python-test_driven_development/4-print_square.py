@@ -15,4 +15,3 @@ def print_square(size):
         return ""
     rez = (("#" * size + "\n") * size).rstrip()
     print(rez)
-	

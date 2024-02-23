@@ -31,4 +31,3 @@ def text_indentation(text):
         else:
             new_text += text[i]
     print(new_text, end="")
-	

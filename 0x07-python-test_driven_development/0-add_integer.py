@@ -19,4 +19,3 @@ def add_integer(a, b=98):
             "Float overflow: int too large to convert to float")
     # cast to int then add
     return int(a) + int(b)
-	
