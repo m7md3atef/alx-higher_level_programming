@@ -47,4 +47,3 @@ class TestMaxInteger(unittest.TestCase):
         list_of_positives = [-20, 300, -40, 1]
         self.assertAlmostEqual(max_integer(
             list_of_positives), 300, "result should be 300")
-			
